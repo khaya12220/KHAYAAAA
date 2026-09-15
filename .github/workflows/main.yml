@@ -1,0 +1,44 @@
+name: Build KHAYA APK
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build KHAYA APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.2'
+          channel: stable
+          cache: true
+
+      - name: Verify Flutter project
+        working-directory: flutter_application_1
+        run: |
+          flutter --version
+          test -f pubspec.yaml
+          test -f android/app/build.gradle
+
+      - name: Get dependencies
+        working-directory: flutter_application_1
+        run: flutter pub get
+
+      - name: Build release APK
+        working-directory: flutter_application_1
+        run: flutter build apk --release
+
+      - name: Upload KHAYA APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: KHAYA-APK
+          path: flutter_application_1/build/app/outputs/flutter-apk/app-release.apk
