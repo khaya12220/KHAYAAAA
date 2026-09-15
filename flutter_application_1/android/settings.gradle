@@ -1,4 +1,18 @@
- pluginManagement {
+pluginManagement {
+    def flutterSdkPath = System.getenv("FLUTTER_ROOT")
+
+    if (flutterSdkPath == null) {
+        def properties = new Properties()
+        file("local.properties").withInputStream { properties.load(it) }
+        flutterSdkPath = properties.getProperty("flutter.sdk")
+    }
+
+    if (flutterSdkPath == null) {
+        throw new GradleException("Flutter SDK path not found")
+    }
+
+    includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
+
     repositories {
         google()
         mavenCentral()
@@ -14,6 +28,7 @@ plugins {
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+
     repositories {
         google()
         mavenCentral()
@@ -21,4 +36,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "flutter_application_1"
-include(":app")
+include(":app") 
+ 
