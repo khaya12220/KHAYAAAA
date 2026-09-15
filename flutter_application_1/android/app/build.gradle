@@ -1,0 +1,18 @@
+plugins {
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+}
+android {
+    namespace = "com.example.flutter_application_1"
+    compileSdk = flutter.compileSdkVersion
+    defaultConfig {
+        applicationId = "com.example.flutter_application_1"
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+}
+flutter {
+    source = "../.."
+}
